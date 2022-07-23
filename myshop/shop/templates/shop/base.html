@@ -5,15 +5,25 @@
 <head>
     <meta charset="utf-8"/>
     <title>{% block title %}My shop{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static '/shop/css/bootstrap.css' %}" >
-    <link rel="stylesheet" type="text/css" href="{% static '/shop/css/base.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static '/css/base.css' %}" >
 </head>
 <body>
 <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
     <a href="/" class="logo">My shop</a>
     <div id="subheader">
     <div class="cart">
-        Your cart is empty.
+        {% with total_items=cart|length %}
+            {% if cart|length > 0 %}
+                Your cart:
+                <a href="{% url "cart:cart_detail" %}">
+                    {{ total_items }} item{{ total_items|pluralize }},
+                    ${{ cart.get_total_price }}
+                </a>
+            {% else %}
+                Your cart is empty.
+            {% endif %}
+        {% endwith %}
     </div>
 </div>
 </header>
